@@ -1,0 +1,108 @@
+{
+  "agentId": 1,
+  "packageName": "MesmerisingKerala",
+  "noOfDays": 2,
+  "location": "cochinAlapuzha",
+  "maxCount": 20,
+  "iteneraries": [
+    {
+      "day": 1,
+      "spots": [
+        {
+          "spotId": 3
+        },
+{
+          "spotId": 4
+        }
+      ]
+    },
+{
+      "day": 2,
+      "spots": [
+        {
+          "spotId": 7
+        },
+{
+          "spotId": 9
+        }
+      ]
+    }
+  ],
+  "hotels": [
+    {
+      "hotelName": "Hotel1",
+      "location": "cochin",
+      "rooms": [
+        {
+          "stayingDays": 0,
+          "checkInDate": "2023-08-02T16:47:15.590Z",
+          "checkOutDate": "2023-08-02T16:47:15.590Z",
+          "price": 200
+        }
+      ]
+    }
+  ],
+  "foods": [
+    {
+      "foodType": "veg",
+      "price": 500
+    }
+  ],
+  "transports": [
+    {
+      "vehicleType": "car",
+      "driverName": "mathan",
+      "driverNumber": "8888888888",
+      "availableFrom": "2023-08-02T16:47:15.590Z",
+      "availableTo": "2023-08-02T16:47:15.590Z"
+    }
+  ]
+}
+select * from hotels
+select * from Packages
+select * from Rooms
+select * from Transports
+select * from PackageSpots
+
+Booking:
+
+{
+  "peopleCount": 2,
+  "packageId": 1,
+  "location": "Kerala",
+  "bookingDate": "2023-08-01T16:33:16.035Z",
+  "departureDate": "2023-08-02T16:33:16.035Z",
+  "returnDate": "2023-08-05T16:33:16.035Z",
+  "price": 10000,
+  "vegCount": 1,
+  "nonVegCount": 1,
+  "vehicleId": 2,
+  "bookedHotels": [
+    {
+      "hotelId": 1,
+      "roomId": 2,
+      "spotId": 2
+    },
+    {
+      "hotelId": 1,
+      "roomId": 3,
+      "spotId": 2
+    }
+  ],
+  "peoples": [
+    {
+      "name": "Mathan",
+      "dateOfBirth": "2023-08-01T16:33:16.035Z",
+      "gender": "Male",
+      "phone": "4567654567",
+      "address": "Kovilpatti"
+    },
+    {
+      "name": "Kombaiya",
+      "dateOfBirth": "2023-08-01T16:33:16.035Z",
+      "gender": "Male",
+      "phone": "4567654567",
+      "address": "Tirunelveli"
+    }
+  ]
+}

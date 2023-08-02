@@ -1,5 +1,6 @@
 ﻿using Bookings.Interfaces;
 using Bookings.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Bookings.Services
 {
@@ -40,9 +41,24 @@ namespace Bookings.Services
             throw new NotImplementedException();
         }
 
-        public Task<ICollection<TourBooking>?> GetAll()
+        public async Task<ICollection<TourBooking>?> GetAll()
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (_context.TourBookings != null)
+                {
+                    var bookings = await _context.TourBookings.ToListAsync();
+                    if (bookings != null)
+                    {
+                        return bookings;
+                    }
+                }
+                return null;
+            }
+            catch (Exception)
+            {
+                throw new Exception();
+            }
         }
 
         public Task<TourBooking?> Update(TourBooking item)
