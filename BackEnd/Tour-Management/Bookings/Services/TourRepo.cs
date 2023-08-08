@@ -36,9 +36,22 @@ namespace Bookings.Services
             throw new NotImplementedException();
         }
 
-        public Task<TourBooking?> Get(int id)
+        public async Task<TourBooking?> Get(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (_context.TourBookings != null)
+                {
+                    var booking = await _context.TourBookings.Include(b=>b.BookedFoods).Include(b=>b.BookedHotels).SingleOrDefaultAsync(b => b.BookingId == id);
+                    if (booking != null)
+                        return booking;
+                }
+                return null;
+            }
+            catch (Exception)
+            {
+                throw new Exception();
+            }
         }
 
         public async Task<ICollection<TourBooking>?> GetAll()
@@ -47,7 +60,7 @@ namespace Bookings.Services
             {
                 if (_context.TourBookings != null)
                 {
-                    var bookings = await _context.TourBookings.ToListAsync();
+                    var bookings = await _context.TourBookings.Include(b=>b.BookedFoods).Include(b=>b.BookedHotels).ToListAsync();
                     if (bookings != null)
                     {
                         return bookings;

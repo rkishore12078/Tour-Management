@@ -26,15 +26,13 @@ builder.Services.AddCors(opts =>
 builder.Services.AddDbContext<dbLocationsContext>
                 (options => options.UseSqlServer(builder.Configuration.GetConnectionString("myConn")));
 
-builder.Services.AddScoped<IRepo<Spot,int>,SpotRepo>();
+builder.Services.AddScoped<IRepo<Spot, int>, SpotRepo>();
 builder.Services.AddScoped<IRepo<Speciality, int>, SpecialityRepo>();
-builder.Services.AddScoped<IRepo<SpotSpeciality, int>, SpotSpecialityRepo>();
 builder.Services.AddScoped<IRepo<Image, int>, ImageRepo>();
 builder.Services.AddScoped<ICommonRepo<Country, int>, CountryRepo>();
 builder.Services.AddScoped<ICommonRepo<State, int>, StateRepo>();
 builder.Services.AddScoped<ICommonRepo<City, int>, CityRepo>();
-builder.Services.AddScoped<ISpotSpeciality,SpotSpecialityService>();
-builder.Services.AddScoped<IimageService,ImageService>();
+builder.Services.AddScoped<IimageService, ImageService>();
 builder.Services.AddScoped<ISpotService, SpotService>();
 builder.Services.AddScoped<IAdapter, Adapter>();
 

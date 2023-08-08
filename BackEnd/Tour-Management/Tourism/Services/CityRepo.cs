@@ -10,7 +10,7 @@ namespace Tourism.Services
 
         public CityRepo(dbLocationsContext context)
         {
-            _context = context;   
+            _context = context;
         }
         public async Task<ICollection<City>?> GetAll()
         {

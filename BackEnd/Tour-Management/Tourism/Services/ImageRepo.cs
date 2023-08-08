@@ -10,7 +10,7 @@ namespace Tourism.Services
 
         public ImageRepo(dbLocationsContext context)
         {
-            _context=context;
+            _context = context;
         }
         public async Task<Image?> Add(Image item)
         {

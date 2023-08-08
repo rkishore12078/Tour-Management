@@ -77,8 +77,6 @@ namespace Tourism.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("StateId");
-
                     b.ToTable("City", (string)null);
                 });
 
@@ -125,12 +123,14 @@ namespace Tourism.Migrations
 
                     b.Property<string>("Iso2")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
                         .HasColumnName("iso2");
 
                     b.Property<string>("Iso3")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
                         .HasColumnName("iso3");
 
                     b.Property<double?>("Latitude")
@@ -216,10 +216,15 @@ namespace Tourism.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SpecialityId"), 1L, 1);
 
-                    b.Property<int>("SpecialityName")
+                    b.Property<string>("SpecialityName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SpotId")
                         .HasColumnType("int");
 
                     b.HasKey("SpecialityId");
+
+                    b.HasIndex("SpotId");
 
                     b.ToTable("Specialities");
                 });
@@ -255,29 +260,6 @@ namespace Tourism.Migrations
                     b.ToTable("Spots");
                 });
 
-            modelBuilder.Entity("Tourism.Models.SpotSpeciality", b =>
-                {
-                    b.Property<int>("SpotSpecialityId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SpotSpecialityId"), 1L, 1);
-
-                    b.Property<int>("SpecialityId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SpotId")
-                        .HasColumnType("int");
-
-                    b.HasKey("SpotSpecialityId");
-
-                    b.HasIndex("SpecialityId");
-
-                    b.HasIndex("SpotId");
-
-                    b.ToTable("SpotSpecialities");
-                });
-
             modelBuilder.Entity("Tourism.Models.State", b =>
                 {
                     b.Property<int>("Id")
@@ -286,7 +268,8 @@ namespace Tourism.Migrations
 
                     b.Property<string>("CountryCode")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
                         .HasColumnName("country_code");
 
                     b.Property<int>("CountryId")
@@ -313,35 +296,35 @@ namespace Tourism.Migrations
 
                     b.Property<string>("StateCode")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
                         .HasColumnName("state_code");
 
                     b.Property<string>("Type")
-                        .HasColumnType("nvarchar(max)")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
                         .HasColumnName("type");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CountryId");
-
                     b.ToTable("State", (string)null);
-                });
-
-            modelBuilder.Entity("Tourism.Models.City", b =>
-                {
-                    b.HasOne("Tourism.Models.State", "State")
-                        .WithMany("Cities")
-                        .HasForeignKey("StateId")
-                        .IsRequired()
-                        .HasConstraintName("FK_cities_States");
-
-                    b.Navigation("State");
                 });
 
             modelBuilder.Entity("Tourism.Models.Image", b =>
                 {
                     b.HasOne("Tourism.Models.Spot", "Spots")
-                        .WithMany()
+                        .WithMany("Images")
+                        .HasForeignKey("SpotId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Spots");
+                });
+
+            modelBuilder.Entity("Tourism.Models.Speciality", b =>
+                {
+                    b.HasOne("Tourism.Models.Spot", "Spots")
+                        .WithMany("Specialities")
                         .HasForeignKey("SpotId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -376,44 +359,11 @@ namespace Tourism.Migrations
                     b.Navigation("State");
                 });
 
-            modelBuilder.Entity("Tourism.Models.SpotSpeciality", b =>
+            modelBuilder.Entity("Tourism.Models.Spot", b =>
                 {
-                    b.HasOne("Tourism.Models.Speciality", "Specialities")
-                        .WithMany()
-                        .HasForeignKey("SpecialityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Tourism.Models.Spot", "Spots")
-                        .WithMany()
-                        .HasForeignKey("SpotId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Images");
 
                     b.Navigation("Specialities");
-
-                    b.Navigation("Spots");
-                });
-
-            modelBuilder.Entity("Tourism.Models.State", b =>
-                {
-                    b.HasOne("Tourism.Models.Country", "Country")
-                        .WithMany("States")
-                        .HasForeignKey("CountryId")
-                        .IsRequired()
-                        .HasConstraintName("FK_States_Countries");
-
-                    b.Navigation("Country");
-                });
-
-            modelBuilder.Entity("Tourism.Models.Country", b =>
-                {
-                    b.Navigation("States");
-                });
-
-            modelBuilder.Entity("Tourism.Models.State", b =>
-                {
-                    b.Navigation("Cities");
                 });
 #pragma warning restore 612, 618
         }

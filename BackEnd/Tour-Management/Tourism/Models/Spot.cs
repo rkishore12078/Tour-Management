@@ -19,5 +19,8 @@ namespace Tourism.Models
         [JsonIgnore]
         public City? Cities { get; set; }
         public string? SpotName { get; set; }
+
+        public ICollection<Speciality>? Specialities { get; set; }  
+        public ICollection<Image>? Images { get; set; }
     }
 }

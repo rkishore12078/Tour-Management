@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Tourism.Models
 {
@@ -19,18 +20,18 @@ namespace Tourism.Models
         public virtual DbSet<City> Cities { get; set; } = null!;
         public virtual DbSet<Country> Countries { get; set; } = null!;
         public virtual DbSet<State> States { get; set; } = null!;
+
         public DbSet<Spot>? Spots { get; set; } = null!;
         public DbSet<Speciality>? Specialities { get; set; } = null!;
-        public DbSet<SpotSpeciality>? SpotSpecialities { get; set; } = null!;
         public DbSet<Image>? Images { get; set; } = null!;
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
+//        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+//        {
 //            if (!optionsBuilder.IsConfigured)
 //            {
 //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
 //                optionsBuilder.UseSqlServer("Data Source=KISHORE\\SQLEXPRESS;Integrated Security=true;Initial Catalog=dbLocations");
 //            }
-        //}
+//        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -67,12 +68,6 @@ namespace Tourism.Models
                 entity.Property(e => e.WikiDataId)
                     .HasColumnType("money")
                     .HasColumnName("wikiDataId");
-
-                entity.HasOne(d => d.State)
-                    .WithMany(p => p.Cities)
-                    .HasForeignKey(d => d.StateId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_cities_States");
             });
 
             modelBuilder.Entity<Country>(entity =>
@@ -107,9 +102,13 @@ namespace Tourism.Models
                     .HasMaxLength(50)
                     .HasColumnName("emojiU");
 
-                entity.Property(e => e.Iso2).HasColumnName("iso2");
+                entity.Property(e => e.Iso2)
+                    .HasMaxLength(50)
+                    .HasColumnName("iso2");
 
-                entity.Property(e => e.Iso3).HasColumnName("iso3");
+                entity.Property(e => e.Iso3)
+                    .HasMaxLength(50)
+                    .HasColumnName("iso3");
 
                 entity.Property(e => e.Latitude).HasColumnName("latitude");
 
@@ -150,7 +149,9 @@ namespace Tourism.Models
                     .ValueGeneratedNever()
                     .HasColumnName("id");
 
-                entity.Property(e => e.CountryCode).HasColumnName("country_code");
+                entity.Property(e => e.CountryCode)
+                    .HasMaxLength(50)
+                    .HasColumnName("country_code");
 
                 entity.Property(e => e.CountryId).HasColumnName("country_id");
 
@@ -162,15 +163,13 @@ namespace Tourism.Models
 
                 entity.Property(e => e.Name).HasColumnName("name");
 
-                entity.Property(e => e.StateCode).HasColumnName("state_code");
+                entity.Property(e => e.StateCode)
+                    .HasMaxLength(50)
+                    .HasColumnName("state_code");
 
-                entity.Property(e => e.Type).HasColumnName("type");
-
-                entity.HasOne(d => d.Country)
-                    .WithMany(p => p.States)
-                    .HasForeignKey(d => d.CountryId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_States_Countries");
+                entity.Property(e => e.Type)
+                    .HasMaxLength(50)
+                    .HasColumnName("type");
             });
 
             OnModelCreatingPartial(modelBuilder);

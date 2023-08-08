@@ -17,18 +17,38 @@ namespace Bookings.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PeopleCount = table.Column<int>(type: "int", nullable: false),
                     PackageId = table.Column<int>(type: "int", nullable: false),
+                    TravellerId = table.Column<int>(type: "int", nullable: false),
                     Location = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    BookingDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DepartureDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ReturnDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Price = table.Column<double>(type: "float", nullable: false),
-                    VegCount = table.Column<int>(type: "int", nullable: false),
-                    NonVegCount = table.Column<int>(type: "int", nullable: false),
                     VehicleId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TourBookings", x => x.BookingId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BookedFoods",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    BookingId = table.Column<int>(type: "int", nullable: false),
+                    FoodId = table.Column<int>(type: "int", nullable: false),
+                    Count = table.Column<int>(type: "int", nullable: false),
+                    Price = table.Column<double>(type: "float", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BookedFoods", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BookedFoods_TourBookings_BookingId",
+                        column: x => x.BookingId,
+                        principalTable: "TourBookings",
+                        principalColumn: "BookingId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -39,8 +59,8 @@ namespace Bookings.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     HotelId = table.Column<int>(type: "int", nullable: false),
                     RoomId = table.Column<int>(type: "int", nullable: false),
-                    SpotId = table.Column<int>(type: "int", nullable: false),
-                    BookingId = table.Column<int>(type: "int", nullable: false)
+                    BookingId = table.Column<int>(type: "int", nullable: false),
+                    Price = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -78,6 +98,11 @@ namespace Bookings.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_BookedFoods_BookingId",
+                table: "BookedFoods",
+                column: "BookingId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_BookedHotels_BookingId",
                 table: "BookedHotels",
                 column: "BookingId");
@@ -90,6 +115,9 @@ namespace Bookings.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "BookedFoods");
+
             migrationBuilder.DropTable(
                 name: "BookedHotels");
 

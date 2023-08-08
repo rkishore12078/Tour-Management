@@ -35,9 +35,22 @@ namespace Tourism.Services
             throw new NotImplementedException();
         }
 
-        public Task<Spot?> Get(int id)
+        public async Task<Spot?> Get(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (_context.Spots != null)
+                {
+                    var spot = await _context.Spots.Include(s=>s.Images).Include(s=>s.Specialities).SingleOrDefaultAsync(s => s.SpotId == id);
+                    if (spot != null)
+                        return spot;
+                }
+                return null;
+            }
+            catch (Exception)
+            {
+                throw new Exception();
+            }
         }
 
         public async Task<ICollection<Spot>?> GetAll()
@@ -46,7 +59,7 @@ namespace Tourism.Services
             {
                 if (_context.Spots != null)
                 {
-                    var spots = await _context.Spots.ToListAsync();
+                    var spots = await _context.Spots.Include(s=>s.Images).Include(s=>s.Specialities).ToListAsync();
                     if (spots != null)
                         return spots;
                 }

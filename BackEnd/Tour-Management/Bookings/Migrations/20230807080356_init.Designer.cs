@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bookings.Migrations
 {
     [DbContext(typeof(BookingContext))]
-    [Migration("20230801151019_init")]
+    [Migration("20230807080356_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,6 +23,33 @@ namespace Bookings.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("Bookings.Models.BookedFoods", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("BookingId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FoodId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookingId");
+
+                    b.ToTable("BookedFoods");
+                });
 
             modelBuilder.Entity("Bookings.Models.BookedHotels", b =>
                 {
@@ -38,10 +65,10 @@ namespace Bookings.Migrations
                     b.Property<int>("HotelId")
                         .HasColumnType("int");
 
-                    b.Property<int>("RoomId")
-                        .HasColumnType("int");
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
 
-                    b.Property<int>("SpotId")
+                    b.Property<int>("RoomId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -92,17 +119,11 @@ namespace Bookings.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookingId"), 1L, 1);
 
-                    b.Property<DateTime>("BookingDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<DateTime>("DepartureDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Location")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("NonVegCount")
-                        .HasColumnType("int");
 
                     b.Property<int>("PackageId")
                         .HasColumnType("int");
@@ -116,7 +137,7 @@ namespace Bookings.Migrations
                     b.Property<DateTime>("ReturnDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("VegCount")
+                    b.Property<int>("TravellerId")
                         .HasColumnType("int");
 
                     b.Property<int>("VehicleId")
@@ -125,6 +146,17 @@ namespace Bookings.Migrations
                     b.HasKey("BookingId");
 
                     b.ToTable("TourBookings");
+                });
+
+            modelBuilder.Entity("Bookings.Models.BookedFoods", b =>
+                {
+                    b.HasOne("Bookings.Models.TourBooking", "Bookings")
+                        .WithMany("BookedFoods")
+                        .HasForeignKey("BookingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Bookings");
                 });
 
             modelBuilder.Entity("Bookings.Models.BookedHotels", b =>
@@ -151,6 +183,8 @@ namespace Bookings.Migrations
 
             modelBuilder.Entity("Bookings.Models.TourBooking", b =>
                 {
+                    b.Navigation("BookedFoods");
+
                     b.Navigation("BookedHotels");
 
                     b.Navigation("Peoples");

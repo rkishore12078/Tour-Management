@@ -12,6 +12,16 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors(opts =>
+{
+    opts.AddPolicy("ReactCors", policy =>
+    {
+        policy.AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowAnyOrigin();
+    });
+});
+
 builder.Services.AddDbContext<BookingContext>
                 (options => options.UseSqlServer(builder.Configuration.GetConnectionString("myConn")));
 builder.Services.AddScoped<IRepo<TourBooking,int>,TourRepo>();
@@ -33,6 +43,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("ReactCors");
 app.UseAuthorization();
 
 app.MapControllers();

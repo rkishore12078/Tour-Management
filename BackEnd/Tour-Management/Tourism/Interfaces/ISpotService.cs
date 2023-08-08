@@ -10,8 +10,10 @@ namespace Tourism.Interfaces
         public Task<List<StateDTO>?> GetAllStates(IdDTO idDTO);
         public Task<List<CountryDTO>?> GetAllCountries();
         public Task<Speciality?> AddSpeciality(Speciality speciality);
+        public Task<List<Speciality>?> GetSpecialitiesBySpot(IdDTO idDTO);
         public Task<List<Spot>?> GetAllSpot();
         public Task<List<Spot>?> SpotByCity(IdDTO idDTO);
+        public Task<Spot?> GetSpot(IdDTO idDTO);
 
     }
 }

@@ -9,13 +9,34 @@ namespace Tourism.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             //migrationBuilder.CreateTable(
+            //    name: "City",
+            //    columns: table => new
+            //    {
+            //        id = table.Column<int>(type: "int", nullable: false),
+            //        name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+            //        state_id = table.Column<int>(type: "int", nullable: false),
+            //        state_code = table.Column<string>(type: "nvarchar(max)", nullable: false),
+            //        state_name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+            //        country_id = table.Column<int>(type: "int", nullable: false),
+            //        country_code = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+            //        country_name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+            //        latitude = table.Column<double>(type: "float", nullable: true),
+            //        longitude = table.Column<double>(type: "float", nullable: true),
+            //        wikiDataId = table.Column<decimal>(type: "money", nullable: true)
+            //    },
+            //    constraints: table =>
+            //    {
+            //        table.PrimaryKey("PK_City", x => x.id);
+            //    });
+
+            //migrationBuilder.CreateTable(
             //    name: "Country",
             //    columns: table => new
             //    {
             //        id = table.Column<int>(type: "int", nullable: false),
             //        name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-            //        iso3 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-            //        iso2 = table.Column<string>(type: "nvarchar(max)", nullable: false),
+            //        iso3 = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+            //        iso2 = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
             //        numeric_code = table.Column<short>(type: "smallint", nullable: false),
             //        phone_code = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
             //        capital = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
@@ -37,19 +58,6 @@ namespace Tourism.Migrations
             //        table.PrimaryKey("PK_Country", x => x.id);
             //    });
 
-            migrationBuilder.CreateTable(
-                name: "Specialities",
-                columns: table => new
-                {
-                    SpecialityId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    SpecialityName = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Specialities", x => x.SpecialityId);
-                });
-
             //migrationBuilder.CreateTable(
             //    name: "State",
             //    columns: table => new
@@ -57,47 +65,16 @@ namespace Tourism.Migrations
             //        id = table.Column<int>(type: "int", nullable: false),
             //        name = table.Column<string>(type: "nvarchar(max)", nullable: false),
             //        country_id = table.Column<int>(type: "int", nullable: false),
-            //        country_code = table.Column<string>(type: "nvarchar(max)", nullable: false),
+            //        country_code = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
             //        country_name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-            //        state_code = table.Column<string>(type: "nvarchar(max)", nullable: false),
-            //        type = table.Column<string>(type: "nvarchar(max)", nullable: true),
+            //        state_code = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+            //        type = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
             //        latitude = table.Column<double>(type: "float", nullable: true),
             //        longitude = table.Column<double>(type: "float", nullable: true)
             //    },
             //    constraints: table =>
             //    {
             //        table.PrimaryKey("PK_State", x => x.id);
-            //        table.ForeignKey(
-            //            name: "FK_States_Countries",
-            //            column: x => x.country_id,
-            //            principalTable: "Country",
-            //            principalColumn: "id");
-            //    });
-
-            //migrationBuilder.CreateTable(
-            //    name: "City",
-            //    columns: table => new
-            //    {
-            //        id = table.Column<int>(type: "int", nullable: false),
-            //        name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-            //        state_id = table.Column<int>(type: "int", nullable: false),
-            //        state_code = table.Column<string>(type: "nvarchar(max)", nullable: false),
-            //        state_name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-            //        country_id = table.Column<int>(type: "int", nullable: false),
-            //        country_code = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-            //        country_name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-            //        latitude = table.Column<double>(type: "float", nullable: true),
-            //        longitude = table.Column<double>(type: "float", nullable: true),
-            //        wikiDataId = table.Column<decimal>(type: "money", nullable: true)
-            //    },
-            //    constraints: table =>
-            //    {
-            //        table.PrimaryKey("PK_City", x => x.id);
-            //        table.ForeignKey(
-            //            name: "FK_cities_States",
-            //            column: x => x.state_id,
-            //            principalTable: "State",
-            //            principalColumn: "id");
             //    });
 
             migrationBuilder.CreateTable(
@@ -155,39 +132,33 @@ namespace Tourism.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SpotSpecialities",
+                name: "Specialities",
                 columns: table => new
                 {
-                    SpotSpecialityId = table.Column<int>(type: "int", nullable: false)
+                    SpecialityId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SpotId = table.Column<int>(type: "int", nullable: false),
-                    SpecialityId = table.Column<int>(type: "int", nullable: false)
+                    SpecialityName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SpotSpecialities", x => x.SpotSpecialityId);
+                    table.PrimaryKey("PK_Specialities", x => x.SpecialityId);
                     table.ForeignKey(
-                        name: "FK_SpotSpecialities_Specialities_SpecialityId",
-                        column: x => x.SpecialityId,
-                        principalTable: "Specialities",
-                        principalColumn: "SpecialityId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_SpotSpecialities_Spots_SpotId",
+                        name: "FK_Specialities_Spots_SpotId",
                         column: x => x.SpotId,
                         principalTable: "Spots",
                         principalColumn: "SpotId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            //migrationBuilder.CreateIndex(
-            //    name: "IX_City_state_id",
-            //    table: "City",
-            //    column: "state_id");
-
             migrationBuilder.CreateIndex(
                 name: "IX_Images_SpotId",
                 table: "Images",
+                column: "SpotId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Specialities_SpotId",
+                table: "Specialities",
                 column: "SpotId");
 
             migrationBuilder.CreateIndex(
@@ -204,30 +175,12 @@ namespace Tourism.Migrations
                 name: "IX_Spots_StateId",
                 table: "Spots",
                 column: "StateId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SpotSpecialities_SpecialityId",
-                table: "SpotSpecialities",
-                column: "SpecialityId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SpotSpecialities_SpotId",
-                table: "SpotSpecialities",
-                column: "SpotId");
-
-            //migrationBuilder.CreateIndex(
-            //    name: "IX_State_country_id",
-            //    table: "State",
-            //    column: "country_id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "Images");
-
-            migrationBuilder.DropTable(
-                name: "SpotSpecialities");
 
             migrationBuilder.DropTable(
                 name: "Specialities");
@@ -239,10 +192,10 @@ namespace Tourism.Migrations
             //    name: "City");
 
             //migrationBuilder.DropTable(
-            //    name: "State");
+            //    name: "Country");
 
             //migrationBuilder.DropTable(
-            //    name: "Country");
+            //    name: "State");
         }
     }
 }

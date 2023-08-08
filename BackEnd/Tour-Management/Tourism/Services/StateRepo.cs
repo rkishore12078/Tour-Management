@@ -4,7 +4,7 @@ using Tourism.Models;
 
 namespace Tourism.Services
 {
-    public class StateRepo : ICommonRepo<State,int>
+    public class StateRepo : ICommonRepo<State, int>
     {
         private readonly dbLocationsContext _context;
 

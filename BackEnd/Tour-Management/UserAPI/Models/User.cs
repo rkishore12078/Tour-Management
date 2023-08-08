@@ -12,5 +12,7 @@ namespace UserAPI.Models
         public string? Role { get; set; }
         public byte[]? PasswordHash { get; set; }
         public byte[]? PasswordKey { get; set; }
+        public string? ResetPsswordToken { get; set; }
+        public DateTime ResetPsswordTokenExpiry { get; set; }
     }
 }

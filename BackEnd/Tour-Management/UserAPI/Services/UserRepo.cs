@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using UserAPI.Interfaces;
 using UserAPI.Models;
 using UserAPI.Utilities;
@@ -18,6 +19,8 @@ namespace UserAPI.Services
         {
             try
             {
+                if (_context.Users == null)
+                    return null;
                 _context.Users.Add(item);
                 await _context.SaveChangesAsync();
                 return item;
@@ -35,24 +38,73 @@ namespace UserAPI.Services
             }
         }
 
-        public Task<User?> Delete(int id)
+        public async Task<User?> Delete(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if( _context.Users == null) return null;
+                var user = await _context.Users.SingleOrDefaultAsync(d => d.UserId == id);
+                if (user != null)
+                {
+                    return user;
+                }
+                return null;
+            }
+            catch (Exception)
+            {
+                throw new Exception();
+            }
         }
 
-        public Task<User?> Get(int id)
+        public async Task<User?> Get(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if(_context.Users == null) return null;
+                var user = await _context.Users.SingleOrDefaultAsync(u => u.UserId == id);
+                if (user != null)
+                    return user;
+                return null;
+            }
+            catch (Exception)
+            {
+                throw new Exception();
+            }
         }
 
-        public Task<ICollection<User>?> GetAll()
+        public async Task<ICollection<User>?> GetAll()
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (_context.Users == null) return null;
+                var users = await _context.Users.ToListAsync();
+                if (users != null)
+                    return users;
+                return null;
+            }
+            catch (Exception)
+            {
+                throw new Exception();
+            }
         }
 
-        public Task<User?> Update(User item)
+        public async Task<User?> Update(User item)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var user = await Get(item.UserId);
+                if (user != null)
+                {
+                    user = item;
+                    await _context.SaveChangesAsync();
+                    return user;
+                }
+                return null;
+            }
+            catch (Exception)
+            {
+                throw new Exception();
+            }
         }
     }
 }
